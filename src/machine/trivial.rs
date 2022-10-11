@@ -35,7 +35,7 @@ impl Machine for Trivial {
         // 2 → 2
         let iden_2 = CommitNode::iden(context).unwrap();
         // 2 × 2 → 2
-        CommitNode::drop(context, iden_2).unwrap()
+        CommitNode::take(context, iden_2).unwrap()
     }
 
     /// `initial: 2 → 2`
@@ -99,16 +99,16 @@ mod tests {
             .unwrap();
         println!("{}", program.ty);
 
-        let q_b_state = vec![
+        let b_q_state = vec![
             (Value::u1(0), Value::u1(0), Value::u1(0)),
             (Value::u1(0), Value::u1(1), Value::u1(1)),
             (Value::u1(1), Value::u1(0), Value::u1(1)),
             (Value::u1(1), Value::u1(1), Value::u1(1)),
         ];
 
-        for (q, b, state) in q_b_state {
+        for (b, q, state) in b_q_state {
             let mut mac = BitMachine::for_program(&program);
-            mac.input(&Value::prod(q, b));
+            mac.input(&Value::prod(b, q));
             let output = mac.exec(&program, &()).unwrap();
             assert_eq!(state, output);
         }

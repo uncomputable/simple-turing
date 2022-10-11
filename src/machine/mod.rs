@@ -15,19 +15,19 @@ pub use two_beavers::TwoBeavers;
 ///
 /// States are encoded as `m`-bit strings.
 pub trait Machine {
-    /// Go left, given the current state and read tape symbol?
+    /// Go left, given the read tape symbol and current state?
     ///
-    /// `left: 2^m × 2 → 2`
+    /// `left: 2 × 2^m → 2`
     fn left(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>>;
 
-    /// Successor state, given the current state and read tape symbol.
+    /// Successor state, given the read tape symbol and current state.
     ///
-    /// `state: 2^m × 2 → 2^m`
+    /// `state: 2 × 2^m → 2^m`
     fn state(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>>;
 
-    /// Tape symbol to write, given the current state and read tape symbol.
+    /// Tape symbol to write, given the read tape symbol and current state.
     ///
-    /// `write: 2^m × 2 → 2`
+    /// `write: 2 × 2^m → 2`
     fn write(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>>;
 
     /// Check if the given state is the initial state.

@@ -19,24 +19,24 @@ pub struct Verifier<C: Computation, M: Machine> {
 }
 
 impl<C: Computation, M: Machine> Verifier<C, M> {
-    fn pair_q_b(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
-        let iden_m = CommitNode::iden(context).unwrap();
-        let take_m_lk = CommitNode::take(context, iden_m).unwrap();
-        let q = CommitNode::take(context, take_m_lk).unwrap();
-
+    fn pair_b_q(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
         let iden_lk = CommitNode::iden(context).unwrap();
         let drop_m_lk = CommitNode::drop(context, iden_lk).unwrap();
         let pair_w_i = CommitNode::take(context, drop_m_lk).unwrap();
         let get = C::get(context);
         let b = CommitNode::comp(context, pair_w_i, get).unwrap();
 
-        CommitNode::pair(context, q, b).unwrap()
+        let iden_m = CommitNode::iden(context).unwrap();
+        let take_m_lk = CommitNode::take(context, iden_m).unwrap();
+        let q = CommitNode::take(context, take_m_lk).unwrap();
+
+        CommitNode::pair(context, b, q).unwrap()
     }
 
     fn check_state(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
-        let pair_q_b = Self::pair_q_b(context);
+        let pair_b_q = Self::pair_b_q(context);
         let state = M::state(context);
-        let computed_q_prime = CommitNode::comp(context, pair_q_b, state).unwrap();
+        let computed_q_prime = CommitNode::comp(context, pair_b_q, state).unwrap();
 
         let iden_m = CommitNode::iden(context).unwrap();
         let take_m_lk = CommitNode::take(context, iden_m).unwrap();
@@ -50,9 +50,9 @@ impl<C: Computation, M: Machine> Verifier<C, M> {
     }
 
     fn check_index(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
-        let pair_q_b = Self::pair_q_b(context);
+        let pair_b_q = Self::pair_b_q(context);
         let left_predicate = M::left(context);
-        let left = CommitNode::comp(context, pair_q_b, left_predicate).unwrap();
+        let left = CommitNode::comp(context, pair_b_q, left_predicate).unwrap();
 
         let iden_k = CommitNode::iden(context).unwrap();
         let drop_l_k = CommitNode::drop(context, iden_k).unwrap();
@@ -74,9 +74,9 @@ impl<C: Computation, M: Machine> Verifier<C, M> {
     }
 
     fn check_tape(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
-        let pair_q_b = Self::pair_q_b(context);
+        let pair_b_q = Self::pair_b_q(context);
         let write = M::write(context);
-        let b = CommitNode::comp(context, pair_q_b, write).unwrap();
+        let b = CommitNode::comp(context, pair_b_q, write).unwrap();
 
         let iden_lk = CommitNode::iden(context).unwrap();
         let drop_m_lk = CommitNode::drop(context, iden_lk).unwrap();
@@ -199,7 +199,7 @@ mod tests {
     fn type_check() {
         let mut context = Context::default();
 
-        let program = Verifier::<Computation256, TwoBeavers>::pair_q_b(&mut context)
+        let program = Verifier::<Computation256, TwoBeavers>::pair_b_q(&mut context)
             .finalize(std::iter::empty())
             .unwrap();
         println!("{}", program.ty);
