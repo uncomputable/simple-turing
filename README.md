@@ -16,11 +16,11 @@ cargo run --example two_beavers
 
 The computation is given as witness data and consists of a sequence of configurations. A configuration consists of the current state, tape and index (pointer).
 
-Feeel free to change the inputs of the given examples to experiment.
+Feel free to change the inputs of the given examples to experiment.
 
 ### Output
 
-If the computation is valid, then the Simplicity program does nothing. Otherwise, the program reaches a so-called pruned branch with one of the following error codes:
+If the computation is valid, then the Simplicity program returns nothing (NOP). Otherwise, the program reaches a so-called pruned branch with one of the following error codes:
 
 - 00... → invalid state
 - 01... → invalid index

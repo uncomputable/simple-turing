@@ -42,18 +42,8 @@ impl Machine for Trivial {
     fn initial(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
         // 2 → 2
         let iden_2 = CommitNode::iden(context).unwrap();
-        // 2 → 1
-        let unit_2 = CommitNode::unit(context).unwrap();
-        // 2 → 2 × 1
-        let pair_iden_2_unit_2 = CommitNode::pair(context, iden_2, unit_2).unwrap();
-        // A → 2
-        let bit_false = CommitNode::bit_false(context).unwrap();
-        // B → 2
-        let bit_true = CommitNode::bit_true(context).unwrap();
-        // 2 × 1 → 2
-        let case_true_false = CommitNode::case(context, bit_true, bit_false).unwrap();
         // 2 → 2
-        CommitNode::comp(context, pair_iden_2_unit_2, case_true_false).unwrap()
+        CommitNode::not(context, iden_2).unwrap()
     }
 
     /// `accepting: 2 → 2`
@@ -62,7 +52,7 @@ impl Machine for Trivial {
         CommitNode::iden(context).unwrap()
     }
 
-    /// `eq_state_verify: 2 × 2 → 2`
+    /// `eq_state: 2 × 2 → 2`
     fn eq_state(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
         // 2 × 2 → 2
         util::eq_2(context)
@@ -72,8 +62,6 @@ impl Machine for Trivial {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::computation::Computation256;
-    use crate::verifier::Verifier;
     use simplicity::core::Value;
     use simplicity::exec::BitMachine;
 

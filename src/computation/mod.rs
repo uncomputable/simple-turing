@@ -26,7 +26,7 @@ pub trait Computation {
 
     /// Check equality of two tapes
     ///
-    /// `eq_tape_verify: 2^l × 2^l → 2`
+    /// `eq_tape: 2^l × 2^l → 2`
     fn eq_tape(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>>;
 
     /// Check equality of two indices

@@ -4,32 +4,16 @@ use simplicity::core::{Context, Value};
 use simplicity::CommitNode;
 use std::rc::Rc;
 
-/// Check equality of two bits.
+/// Check equality of bits.
 ///
 /// `eq_2: 2 × 2 → 2`
 pub fn eq_2(context: &mut Context<Turing>) -> Rc<CommitNode<Turing>> {
-    // A → 2
-    let bit_false = CommitNode::bit_false(context).unwrap();
-    // B → 2
-    let bit_true = CommitNode::bit_true(context).unwrap();
     // 2 → 2
-    let iden2 = CommitNode::iden(context).unwrap();
-    // 2 → 1
-    let unit2 = CommitNode::unit(context).unwrap();
-    // 2 → 2 × 1
-    let pair_iden2_unit2 = CommitNode::pair(context, iden2, unit2).unwrap();
-    // 2 × 1 → 2
-    let case_true_false = CommitNode::case(context, bit_true.clone(), bit_false.clone()).unwrap();
+    let iden_2 = CommitNode::iden(context).unwrap();
     // 2 → 2
-    let adapted_case_true_false =
-        CommitNode::comp(context, pair_iden2_unit2.clone(), case_true_false).unwrap();
-    // 2 × 1 → 2
-    let case_false_true = CommitNode::case(context, bit_false, bit_true).unwrap();
-    // 2 → 2
-    let adapted_case_false_true =
-        CommitNode::comp(context, pair_iden2_unit2, case_false_true).unwrap();
+    let not_2 = CommitNode::not(context, iden_2.clone()).unwrap();
     // 2 × 2 → 2
-    CommitNode::cond(context, adapted_case_false_true, adapted_case_true_false).unwrap()
+    CommitNode::cond(context, iden_2, not_2).unwrap()
 }
 
 /// Create a computation from states, tapes and indices, as witness for a program commitment.
