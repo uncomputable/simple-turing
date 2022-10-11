@@ -7,7 +7,9 @@ use simplicity::CommitNode;
 use std::rc::Rc;
 
 /// Turing machine with two states that writes the most symbols upon the empty input.
+///
 /// It realizes the behaviour of `BusyBeaver(2)`.
+/// See [Wikipedia](https://en.wikipedia.org/w/index.php?title=Busy_beaver&oldid=1112201946).
 ///
 /// States are encoded as `m = 1`-bit strings.
 pub struct TwoBeavers {}

@@ -7,6 +7,9 @@ use std::rc::Rc;
 
 /// Trivial Turing machine with two states.
 ///
+/// The machine transitions to the second state upon reading `1` and stays there forever.
+/// The cursor is shifted right in each step. The tape is left unchanged.
+///
 /// States are encoded as `m = 1`-bit strings.
 pub struct Trivial {}
 
