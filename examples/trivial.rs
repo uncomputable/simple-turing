@@ -2,7 +2,7 @@ use simple_turing::computation::Computation256;
 use simple_turing::machine::Trivial;
 use simple_turing::util;
 use simple_turing::Verifier;
-use simplicity::core::Context;
+use simplicity::core::{Context, Value};
 use simplicity::exec::BitMachine;
 
 fn main() {
@@ -31,7 +31,8 @@ fn main() {
             0, 0, 0, 0, 0, 0,
         ],
     ];
-    let computation = util::computation256_of(states.iter(), tapes.iter(), indices.iter());
+    let computation =
+        util::computation256_of(states.iter(), tapes.iter(), indices.iter(), Value::u1);
 
     let program = commit.finalize(computation).unwrap();
     println!("{}", program.ty);

@@ -1,3 +1,4 @@
+mod three_beavers;
 mod trivial;
 mod two_beavers;
 
@@ -5,6 +6,7 @@ use crate::jet::application::Turing;
 use simplicity::core::Context;
 use simplicity::CommitNode;
 use std::rc::Rc;
+pub use three_beavers::ThreeBeavers;
 pub use trivial::Trivial;
 pub use two_beavers::TwoBeavers;
 
