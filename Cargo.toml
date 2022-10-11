@@ -1,0 +1,11 @@
+[package]
+name = "simple-turing"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+simplicity = { git = "https://github.com/chlewe/rust-simplicity", branch = "turing" }
+bitcoin_hashes = "0.10"
+base64 = "0.13"
